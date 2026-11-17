@@ -1,5 +1,6 @@
 import { describe, beforeEach, test, expect } from "vitest";
 import City, { calculateDurationDays } from "../city.ts";
+import Accommodation from "../accommodation.ts";
 
 function createCity(): City {
   return new City(
@@ -8,6 +9,7 @@ function createCity(): City {
     new Date("2023-05-01"),
     new Date("2023-05-04"),
     "Notas",
+    new Accommodation("acc de prueba", 1000),
   );
 }
 
@@ -22,7 +24,14 @@ describe("City name", () => {
   });
 
   test("should throw error if city name is empty", () => {
-    // TODO: Implementar validación de nombre vacío en la clase City
+    expect(() => {new City(
+    "",
+    "TestCountry",
+    new Date("2023-05-01"),
+    new Date("2023-05-04"),
+    "Notas",
+    new Accommodation("acc de prueba", 1000),
+  )}).toThrow();
   });
 });
 
@@ -33,7 +42,8 @@ describe("City country", () => {
   });
 
   test("should set country correctly", () => {
-    // TODO: Implementar test para validar país
+    expect(() => city.setCountry("Irlanda")).not.toThrow();
+    expect(city.getCountry()).toBe("Irlanda");
   });
 
   test("should throw error if country is not a string", () => {
@@ -160,6 +170,8 @@ describe("Duration in days", () => {
       "TestCountry",
       new Date("2023-05-01"),
       new Date("2023-05-01"),
+      "notas de prueba",
+      new Accommodation("Acc de prueba 2", 2000),
     );
     expect(singleDayCity.getDurationDays()).toBe(1);
   });
@@ -169,5 +181,31 @@ describe("Duration in days", () => {
     city.setDateTo(new Date("2023-05-01"));
 
     expect(city.getDurationDays()).toBe(0);
+  });
+});
+
+describe("City Accomodation", () => {
+  let city: City;
+  let acc: Accommodation;
+  beforeEach(() => {
+    acc = new Accommodation("acc de prueba", 1000);
+    city = new City(
+    "TestCity",
+    "TestCountry",
+    new Date("2023-05-01"),
+    new Date("2023-05-04"),
+    "Notas",
+    acc,
+  );
+  });
+
+  test("should get the correct accomodation", () => {
+    expect(city.getAccomodation()).toBe(acc);
+  });
+
+  test("should add the correct accomodation", () => {
+    const acc2 = new Accommodation("acc de prueba 2", 1000);
+    expect(() => {city.addAccomodation(acc2)}).not.toThrow();
+    expect(city.getAccomodation()).toBe(acc2);
   });
 });

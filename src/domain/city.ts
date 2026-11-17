@@ -1,9 +1,12 @@
+import type Accommodation from './accommodation';
+
 class City {
   #cityName!: string;
   #country!: string;
   #dateFrom!: Date;
   #dateTo!: Date;
   #notes: string = "";
+  #accomodation!: Accommodation;
 
   constructor(
     cityName: unknown,
@@ -11,6 +14,7 @@ class City {
     dateFrom: unknown,
     dateTo: unknown,
     notes: unknown = "",
+    accomodation: Accommodation,
   ) {
     this.setName(cityName);
     this.setCountry(country);
@@ -18,6 +22,7 @@ class City {
     this.setDateFrom(dateFrom);
     this.setDateTo(dateTo);
     this.setNotes(notes);
+    this.addAccomodation(accomodation);
   }
 
   getCountry(): string {
@@ -92,6 +97,14 @@ class City {
 
   getDurationDays(): number {
     return calculateDurationDays(this.#dateFrom, this.#dateTo);
+  }
+
+  getAccomodation() {
+    return this.#accomodation;
+  }
+
+  addAccomodation(acc: Accommodation): void {
+    this.#accomodation = acc;
   }
 
   validateDatesOrder(
