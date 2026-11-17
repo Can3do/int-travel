@@ -1,5 +1,7 @@
 import TripManager from "./domain/tripManager.ts";
 import City from "./domain/city.ts";
+import Accommodation from "./domain/accommodation.ts";
+
 
 const manager = new TripManager();
 const form = document.getElementById("city-form") as HTMLFormElement | null;
@@ -20,16 +22,19 @@ function renderCities(): void {
     const country = city.getCountry ? city.getCountry() || "" : "";
     const duration = city.getDurationDays() ? city.getDurationDays() : "";
     const notesText = city.getNotes ? String(city.getNotes() || "") : "";
+    const accomodationName = city.getAccomodation().getName() ? city.getAccomodation().getName() : "";
+    const accomodationCost =  city.getAccomodation().getCost() ? city.getAccomodation().getCost() : "";
     const notesHtml = notesText
       ? notesText
       : '<span class="text-muted">Sin datos</span>';
     tr.innerHTML = `<td>
-    <strong>${city.getName()}</strong>
-    </td>
-    <td>${country}</td>
+    <strong>${city.getName()}</strong></td>
+    <td><span class = "badge bg-primary">${country}</span></td>
     <td>${duration ? `${duration} días` : "—"}</td>
     <td>${dateFrom}</td>
     <td>${dateTo}</td>
+    <td>${accomodationName}</td>
+    <td>${accomodationCost}</td>
     <td>${notesHtml}</td>`;
     citiesTbody.appendChild(tr);
   });
@@ -47,6 +52,9 @@ function handleCityFormSubmit(e: SubmitEvent): void {
     .value;
   const notes = (document.getElementById("city-notes") as HTMLTextAreaElement)
     .value;
+  const accomodationName = (document.getElementById("accomodation-name") as HTMLInputElement).value;
+  const accomodationCost = Number((document.getElementById("accomodation-cost") as HTMLInputElement).value);
+  const accomodation = new Accommodation(accomodationName, accomodationCost);
 
   const city = new City(
     name,
@@ -54,6 +62,7 @@ function handleCityFormSubmit(e: SubmitEvent): void {
     new Date(dateFrom),
     new Date(dateTo),
     notes,
+    accomodation
   );
   if (!city) {
     showToast("Error", "No se pudo crear la ciudad", "danger");
