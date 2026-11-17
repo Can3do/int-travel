@@ -24,9 +24,7 @@ function renderCities(): void {
     const notesText = city.getNotes ? String(city.getNotes() || "") : "";
     const accomodationName = city.getAccomodation().getName() ? city.getAccomodation().getName() : "";
     const accomodationCost =  city.getAccomodation().getCost() ? city.getAccomodation().getCost() : "";
-    const notesHtml = notesText
-      ? notesText
-      : '<span class="text-muted">Sin datos</span>';
+    const notesHtml = notesText ? notesText : '<span class="text-muted">Sin datos</span>';
     tr.innerHTML = `<td>
     <strong>${city.getName()}</strong></td>
     <td><span class = "badge bg-primary">${country}</span></td>
@@ -43,15 +41,10 @@ function renderCities(): void {
 function handleCityFormSubmit(e: SubmitEvent): void {
   e.preventDefault();
   const name = (document.getElementById("city-name") as HTMLInputElement).value;
-  const country = (document.getElementById("city-country") as HTMLInputElement)
-    .value;
-  const dateFrom = (
-    document.getElementById("city-date-from") as HTMLInputElement
-  ).value;
-  const dateTo = (document.getElementById("city-date-to") as HTMLInputElement)
-    .value;
-  const notes = (document.getElementById("city-notes") as HTMLTextAreaElement)
-    .value;
+  const country = (document.getElementById("city-country") as HTMLInputElement).value;
+  const dateFrom = (document.getElementById("city-date-from") as HTMLInputElement).value;
+  const dateTo = (document.getElementById("city-date-to") as HTMLInputElement).value;
+  const notes = (document.getElementById("city-notes") as HTMLTextAreaElement).value;
   const accomodationName = (document.getElementById("accomodation-name") as HTMLInputElement).value;
   const accomodationCost = Number((document.getElementById("accomodation-cost") as HTMLInputElement).value);
   const accomodation = new Accommodation(accomodationName, accomodationCost);
